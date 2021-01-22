@@ -1,0 +1,45 @@
+import React from "react";
+import { connect } from "react-redux";
+
+const Jugadores = ({ jugadores, agregarTitular, agregarSuplente }) => (
+  <section>
+    <h2>Jugadores</h2>
+    <div className="contenedor-jugadores">
+      {jugadores.map((j) => (
+        <article className="jugador" key={j.id}>
+          <img src={j.foto} alt={j.nombre} />
+          <h3>{j.nombre}</h3>
+          <div>
+            <button onClick={() => agregarTitular(j)}>Titular</button>
+            <button onClick={() => agregarSuplente(j)}>Suplente</button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+);
+
+const mapStateToProps = (state) => ({
+  jugadores: state.jugadores,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  agregarTitular(jugador) {
+    dispatch({
+      type: "AGREGAR_TITULAR",
+      jugador,
+    });
+  },
+
+  agregarSuplente(jugador) {
+    dispatch({
+      type: "AGREGAR_SUPLENTE",
+      jugador,
+    });
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Jugadores);
+// la funcion "connect" recibe 2 funciones
+// Primera: Funcion que mapea lo que tenga en el estado y lo convierte en propiedades
+// Segunda: Funcion que mapea las funciones que es lo que llamamos (Dispach) y las convierte en propiedades
